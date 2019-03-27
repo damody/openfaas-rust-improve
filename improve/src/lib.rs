@@ -1,16 +1,29 @@
 use chrono::prelude::*;
 use chrono::*;
+use failure::Error;
 
 pub fn handle(req : String) -> String {
+    let res = handleX(req);
+    match res {
+        Ok(x) => {
+            x
+        },
+        Err(x) => {
+            x.to_string()
+        }
+    }
+}
+
+pub fn handleX(req : String) ->Result<String, Error> {
     let split = req.split(",");
     let vecstr: Vec<&str> = split.collect();
     let dstr1 = vecstr[0];
     let dstr2 = vecstr[1];
-    let improve_speed = vecstr[2].parse::<f64>().unwrap();
-    let improve_days = vecstr[3].parse::<i64>().unwrap();
+    let improve_speed = vecstr[2].parse::<f64>()?;
+    let improve_days = vecstr[3].parse::<i64>()?;
     
-    let mut d1 = NaiveDate::parse_from_str(dstr1, "%Y-%m-%d").unwrap();
-    let mut d2 = NaiveDate::parse_from_str(dstr2, "%Y-%m-%d").unwrap();
+    let mut d1 = NaiveDate::parse_from_str(dstr1, "%Y-%m-%d")?;
+    let mut d2 = NaiveDate::parse_from_str(dstr2, "%Y-%m-%d")?;
     let start = d1.clone();
     
     let mut count = 0;
@@ -41,7 +54,5 @@ pub fn handle(req : String) -> String {
     res.push_str(&format!("improve count {:?}\n", count));
     res.push_str(&format!("improve from {} days to {} days\n", origin_day, final_day));
     res.push_str(&format!("final performance {:?}\n", improve));
-    res
+    Ok(res)
 }
-
-
