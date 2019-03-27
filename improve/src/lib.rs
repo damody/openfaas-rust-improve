@@ -19,8 +19,8 @@ pub fn handleX(req : String) ->Result<String, Error> {
     let vecstr: Vec<&str> = split.collect();
     let dstr1 = vecstr[0];
     let dstr2 = vecstr[1];
-    let improve_speed = vecstr[2].parse::<f64>()?;
-    let improve_days = vecstr[3].parse::<i64>()?;
+    let improve_speed = vecstr[3].parse::<f64>()?;
+    let improve_days = vecstr[2].parse::<i64>()?;
     
     let mut d1 = NaiveDate::parse_from_str(dstr1, "%Y-%m-%d")?;
     let mut d2 = NaiveDate::parse_from_str(dstr2, "%Y-%m-%d")?;
